@@ -13,7 +13,7 @@
 
 
 
-<title>Vue3-02.Teleport-传送门 | Cedrus-P</title>
+<title>Vue3-03.Fragments &amp; Emits选项 | Cedrus-P</title>
 
 
 
@@ -190,7 +190,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Vue3-02.Teleport-传送门</h1>
+            <h1 class="post-title">Vue3-03.Fragments &amp; Emits选项</h1>
             
                 <div class="post-meta">
                     
@@ -199,43 +199,26 @@
 
                     
                     
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
-                            
-                        </span>
-                    
                 </div>
             
         </header>
 
         <div class="post-content">
-            <blockquote>
-<p><code>&lt;Teleport&gt; </code>是一个内置组件，使我们可以将一个组件的一部分模板“传送”到该组件的 DOM 层次结构之外的 DOM 节点中。</p>
-</blockquote>
-<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>传送门组件提供一种简洁而方式可以指定它里面内容的父元素（把元素传送到任意的元素内）。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;modelOpen = true&quot;</span>&gt;</span>弹出一个模态窗口<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Teleport</span> <span class="attr">to</span>=<span class="string">&quot;body&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">v-if</span>=<span class="string">&quot;modelOpen&quot;</span> <span class="attr">class</span>=<span class="string">&quot;model&quot;</span>&gt;</span></span><br><span class="line">			   <span class="comment">&lt;!-- 需要创建的内容 --&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">					这是一个弹窗父元素是body</span><br><span class="line">					<span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;modelOpen = false&quot;</span>&gt;</span>close<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Teleport</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>为<code>&lt;Teleport&gt;</code>指定的目标 to 期望接收一个 CSS 选择器字符串或者一个真实的 DOM 节点。让 Vue 去&#x3D;&#x3D;传送这部分模板片段到 body 标签下&#x3D;&#x3D;。</li>
+            <h2 id="Fragments"><a href="#Fragments" class="headerlink" title="Fragments"></a>Fragments</h2><ul>
+<li><code>&lt;template&gt;</code>中可以有多个根节点</li>
 </ul>
-<h2 id="和组件一起使用"><a href="#和组件一起使用" class="headerlink" title="和组件一起使用"></a>和组件一起使用</h2><blockquote>
-<p>&#x3D;&#x3D;<code>&lt;Teleport&gt; </code>只改变了渲染的 DOM 结构，它不会影响组件间的逻辑关系&#x3D;&#x3D;。也就是说，如果 <code>&lt;Teleport&gt;</code> 包含了一个组件，那么该组件始终和这个使用了<code>&lt;teleport&gt;</code>的组件保持逻辑上的父子关系。传入的 <code>props</code> 和触发的事件也会照常工作。</p>
-</blockquote>
-<br/>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">header</span>&gt;</span>...<span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">main</span>&gt;</span>...<span class="tag">&lt;/<span class="name">main</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">footer</span>&gt;</span>...<span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="传送门禁用"><a href="#传送门禁用" class="headerlink" title="传送门禁用"></a>传送门禁用</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;<span class="title class_">Teleport</span> :disabled=<span class="string">&quot;isMobile&quot;</span>&gt;&lt;/<span class="title class_">Teleport</span>&gt;</span><br></pre></td></tr></table></figure>
-
+<h2 id="Emits-Component-Option"><a href="#Emits-Component-Option" class="headerlink" title="Emits Component Option"></a>Emits Component Option</h2><p>vue3中组件发送的自定义事件需要定义在<code>emits</code>选项中：</p>
 <ul>
-<li>场景：我们想要在桌面端将一个组件当做浮层来渲染，但在移动端则当作行内组件。可以对 <code>&lt;Teleport&gt; </code>动态地传入一个 disabled prop 来处理这两种不同情况。</li>
+<li><p>原生事件会触发两次，比如：<code>click</code></p>
+</li>
+<li><p>更好的指示组件工作方式</p>
+</li>
+<li><p>对象形式校验</p>
+</li>
 </ul>
-<br/>
-
-<h2 id="可复用的Teleport"><a href="#可复用的Teleport" class="headerlink" title="可复用的Teleport"></a>可复用的Teleport</h2><h3 id="template"><a href="#template" class="headerlink" title="template"></a>template</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Teleport</span> <span class="attr">to</span>=<span class="string">&quot;#modals&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>A<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Teleport</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Teleport</span> <span class="attr">to</span>=<span class="string">&quot;#modals&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>B<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Teleport</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>渲染结果：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;modals&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>A<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>B<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">export</span> <span class="keyword">default</span>&#123;</span><br><span class="line">    <span class="attr">emits</span>:[<span class="string">&#x27;my-click&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">div</span> @<span class="attr">click</span>=<span class="string">&quot;$emit(&#x27;my-click&#x27;)&quot;</span>&gt;</span>自定义事件<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
         </div>
@@ -278,10 +261,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/05/19/Vue3-03-Fragments-Emits%E9%80%89%E9%A1%B9/">Vue3-03.Fragments & Emits选项</a>
             
-            
-            <a class="next" rel="next" href="/2022/05/18/Vue3-01-ref%E3%80%81reactive%E3%80%81toRef%E3%80%81toRefs%E5%BA%94%E7%94%A8%E5%8F%8A%E5%8C%BA%E5%88%AB/">Vue3-01.ref、reactive、toRef、toRefs应用及区别</a>
+            <a class="next" rel="next" href="/2022/05/19/Vue3-02-Teleport-%E4%BC%A0%E9%80%81%E9%97%A8/">Vue3-02.Teleport-传送门</a>
             
         </section>
 
