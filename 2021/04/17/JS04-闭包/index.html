@@ -13,7 +13,7 @@
 
 
 
-<title>JS05-宏任务和微任务 | Cedrus-P</title>
+<title>JS04-闭包 | Cedrus-P</title>
 
 
 
@@ -190,7 +190,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">JS05-宏任务和微任务</h1>
+            <h1 class="post-title">JS04-闭包</h1>
             
                 <div class="post-meta">
                     
@@ -204,48 +204,17 @@
         </header>
 
         <div class="post-content">
-            <h1 id="宏任务-macroTask-x2F-微任务-microTask"><a href="#宏任务-macroTask-x2F-微任务-microTask" class="headerlink" title="宏任务(macroTask)&#x2F;微任务(microTask)"></a>宏任务(macroTask)&#x2F;微任务(microTask)</h1><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">100</span>)      <span class="comment">//1</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;              <span class="comment">//宏任务</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">200</span>)    <span class="comment">//4</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;  <span class="comment">//微任务</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">300</span>)    <span class="comment">//3</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">400</span>)      <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+            <h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><ul>
+<li>一个函数和对其周围状态（词法环境）的引用捆绑在一起（或者说函数被引用包围），这样的组合就是闭包（closure）。也就是说，闭包让你可以<strong>在一个内层函数中访问到其外层函数的作用域</strong>。在 JavaScript 中，每当创建一个函数，闭包就会在函数创建的同时被创建出来。</li>
+<li>由于在JS中，变量的作用域属于函数作用域，在函数执行后作用域就会被清理、内存也随之回收，但是由于闭包是建立在一个函数内部的子函数，由于其可访问上级作用域的原因，即使上级函数执行完，作用域也不会随之销毁，这时的子函数——也就是闭包，便拥有了访问上级作用域中的变量的权限，即使上级函数执行完后作用域内的值也不会被销毁。</li>
+<li>函数作为参数被传递</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">print</span>(<span class="params">fn</span>)&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">200</span></span><br><span class="line">  <span class="title function_">fn</span>()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = <span class="number">100</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">fn</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(a)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">print</span>(fn)</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li><strong>微任务执行时机比宏任务早</strong></li>
+<li>函数作为返回值被返回</li>
 </ul>
-<h2 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h2><ul>
-<li><code>Promise</code>  <code>async/await</code></li>
-</ul>
-<h2 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h2><ul>
-<li><code>setTimeout</code>,<code>setInterval</code>,<code>Ajax</code>,DOM事件</li>
-</ul>
-<h2 id="event-loop和DOM渲染"><a href="#event-loop和DOM渲染" class="headerlink" title="event loop和DOM渲染"></a>event loop和DOM渲染</h2><h3 id="event-loop-事件循环-的机制"><a href="#event-loop-事件循环-的机制" class="headerlink" title="event loop(事件循环)的机制"></a>event loop(事件循环)的机制</h3><ul>
-<li>异步基于回调实现，event loop是异步回调的实现原理</li>
-<li>先执行同步代码，再执行异步</li>
-</ul>
-<h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ul>
-<li>同步代码一行一行放到call stack中执行</li>
-<li>遇到异步，先记录下来，等待时机（定时到达，网络请求）</li>
-<li>时机到了就移动到callback quene</li>
-<li>若call stack为空，则event loop进行查询</li>
-<li>轮询查找callback quene，如果有则移动到call stack中执行</li>
-<li>继续轮询查找</li>
-<li><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h37sz8hcz7j20uk0iwmxw.jpg" alt="c8f0b2abff092ebb947dade0ecda54f8" style="zoom: 50%;" /></li>
-</ul>
-<h4 id="dom事件和event-loop"><a href="#dom事件和event-loop" class="headerlink" title="dom事件和event loop"></a>dom事件和event loop</h4><ul>
-<li>dom事件（不是异步）也使用回调，基于event loop</li>
-<li>event loop 和 DOM渲染共用一个线程</li>
-</ul>
-<h2 id="宏任务和微任务区别"><a href="#宏任务和微任务区别" class="headerlink" title="宏任务和微任务区别"></a>宏任务和微任务区别</h2><ul>
-<li>宏任务在DOM渲染<code>后</code>触发，如setTimeout</li>
-<li>微任务在DOM渲染<code>前</code>触发，如promise</li>
-</ul>
-<h3 id="WHY"><a href="#WHY" class="headerlink" title="WHY"></a>WHY</h3><ul>
-<li>微任务是<strong>ES6语法</strong>规定的</li>
-<li>宏任务是由<strong>浏览器</strong>规定的</li>
-</ul>
-<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h37szo0e2zj20kk0ci3zv.jpg" alt="e963eb64e93086daed95a31918316f39" style="zoom:50%;" />
-
-<h3 id="setTimeout（宏任务执行顺序）"><a href="#setTimeout（宏任务执行顺序）" class="headerlink" title="setTimeout（宏任务执行顺序）"></a>setTimeout（宏任务执行顺序）</h3><p>遇到setTimeout，先放入Web API中，等待时机，到时机之后放入callback quene中等待event loop调用。</p>
-<p><strong>步骤：</strong>event loop在每检查一次call stack为空时就会尝试一次DOM渲染。</p>
-<h3 id="Promise（微任务执行顺序）"><a href="#Promise（微任务执行顺序）" class="headerlink" title="Promise（微任务执行顺序）"></a>Promise（微任务执行顺序）</h3><p>遇到promise，放入微任务队列（micro task quene）中，不会经过Web API。</p>
-<p><strong>步骤：</strong>event loop在检查微任务队列时，会先将call stack清空，一口气执行完所有微任务在尝试DOM渲染。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">create</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">100</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(a)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> fn = <span class="title function_">create</span>()</span><br><span class="line"><span class="keyword">let</span> a = <span class="number">200</span></span><br><span class="line"><span class="title function_">fn</span>()</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -287,10 +256,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/05/24/Web%E5%AD%98%E5%82%A8/">Web存储</a>
+                <a class="prev" rel="prev" href="/2021/05/04/JS05-%E5%AE%8F%E4%BB%BB%E5%8A%A1%E5%92%8C%E5%BE%AE%E4%BB%BB%E5%8A%A1/">JS05-宏任务和微任务</a>
             
             
-            <a class="next" rel="next" href="/2021/04/14/JS04-%E9%97%AD%E5%8C%85/">JS04-闭包</a>
+            <a class="next" rel="next" href="/2021/04/16/JS03-%E4%BD%9C%E7%94%A8%E5%9F%9F-this/">JS03-作用域 this</a>
             
         </section>
 
