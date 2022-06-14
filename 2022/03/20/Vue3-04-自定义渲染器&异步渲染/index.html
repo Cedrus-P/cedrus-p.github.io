@@ -13,7 +13,7 @@
 
 
 
-<title>Vue3-03.Fragments &amp; Emits选项 | Cedrus-P</title>
+<title>Vue3-04.自定义渲染器 | Cedrus-P</title>
 
 
 
@@ -190,7 +190,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Vue3-03.Fragments &amp; Emits选项</h1>
+            <h1 class="post-title">Vue3-04.自定义渲染器</h1>
             
                 <div class="post-meta">
                     
@@ -199,38 +199,12 @@
 
                     
                     
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/%E5%89%8D%E7%AB%AF/">前端</a>
-                            
-                        </span>
-                    
                 </div>
             
         </header>
 
         <div class="post-content">
-            <h2 id="Fragments"><a href="#Fragments" class="headerlink" title="Fragments"></a>Fragments</h2><ul>
-<li><code>&lt;template&gt;</code>中可以有多个根节点</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">header</span>&gt;</span>...<span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">main</span>&gt;</span>...<span class="tag">&lt;/<span class="name">main</span>&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">footer</span>&gt;</span>...<span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span></span><br><span class="line">&lt;/template&gt;</span><br></pre></td></tr></table></figure>
-
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><blockquote>
-<p><strong><code>DocumentFragment</code>，文档片段</strong>接口，一个没有父对象的最小文档对象。它被作为一个轻量版的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document"><code>Document</code></a> 使用，就像标准的document一样，存储由节点（nodes）组成的文档结构。与document相比，最大的区别是DocumentFragment 不是真实 DOM 树的一部分，它的变化不会触发 DOM 树的<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Reflow">重新渲染</a>，且不会导致性能等问题。</p>
-</blockquote>
-<h2 id="Emits-Component-Option"><a href="#Emits-Component-Option" class="headerlink" title="Emits Component Option"></a>Emits Component Option</h2><p>vue3中组件发送的自定义事件需要定义在<code>emits</code>选项中：</p>
-<ul>
-<li><p>原生事件会触发两次，比如：<code>click</code></p>
-</li>
-<li><p>更好的指示组件工作方式</p>
-</li>
-<li><p>对象形式校验</p>
-</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">  <span class="keyword">export</span> <span class="keyword">default</span>&#123;</span><br><span class="line">    <span class="attr">emits</span>:[<span class="string">&#x27;my-click&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">div</span> @<span class="attr">click</span>=<span class="string">&quot;$emit(&#x27;my-click&#x27;)&quot;</span>&gt;</span>自定义事件<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-
+            <h2 id="自定义渲染器-custom-renderer"><a href="#自定义渲染器-custom-renderer" class="headerlink" title="自定义渲染器 custom renderer"></a>自定义渲染器 custom renderer</h2><h2 id="异步渲染"><a href="#异步渲染" class="headerlink" title="异步渲染"></a>异步渲染</h2>
         </div>
 
         
@@ -260,8 +234,6 @@
                     
                         <a href="/tags/Vue3/"># Vue3</a>
                     
-                        <a href="/tags/APIS/"># APIS</a>
-                    
                         
                 </span>
             </div>
@@ -273,10 +245,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/05/20/Vue3-04-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B8%B2%E6%9F%93%E5%99%A8&%E5%BC%82%E6%AD%A5%E6%B8%B2%E6%9F%93/">Vue3-04.自定义渲染器</a>
+                <a class="prev" rel="prev" href="/2022/04/18/Vue3-01-ref%E3%80%81reactive%E3%80%81toRef%E3%80%81toRefs%E5%BA%94%E7%94%A8%E5%8F%8A%E5%8C%BA%E5%88%AB/">Vue3-01.ref、reactive、toRef、toRefs应用及区别</a>
             
             
-            <a class="next" rel="next" href="/2022/05/19/Vue3-02-Teleport-%E4%BC%A0%E9%80%81%E9%97%A8/">Vue3-02.Teleport-传送门</a>
+            <a class="next" rel="next" href="/2022/03/19/Vue3-03-Fragments-Emits%E9%80%89%E9%A1%B9/">Vue3-03.Fragments & Emits选项</a>
             
         </section>
 
