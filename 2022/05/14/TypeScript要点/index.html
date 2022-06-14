@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Cedrus-P">
+
+
+
+
+
+<title>TypeScript要点 | Cedrus-P</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Cedrus-P&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Cedrus-P&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">TypeScript要点</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Cedrus-P</a>
+                    
+
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="TS-Learn"><a href="#TS-Learn" class="headerlink" title="TS-Learn"></a>TS-Learn</h1><h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 空值</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">unsable</span>:<span class="built_in">void</span> = <span class="literal">undefined</span></span><br><span class="line"><span class="comment">// null和undefined</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">u</span>:<span class="literal">undefined</span> = <span class="literal">undefined</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">n</span>:<span class="literal">null</span> = <span class="literal">null</span></span><br><span class="line"><span class="comment">// boolean</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">isRight</span>:<span class="built_in">boolean</span> = <span class="literal">false</span></span><br><span class="line"><span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">str</span>: <span class="built_in">string</span> = <span class="string">&#x27;hello&#x27;</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">combine</span>:<span class="built_in">string</span> = <span class="string">`<span class="subst">$&#123;str&#125;</span> ,how are you`</span></span><br><span class="line"><span class="comment">// number</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">num</span>: <span class="built_in">number</span> = <span class="number">12</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">notNum</span>:<span class="built_in">number</span> = <span class="title class_">NaN</span>  </span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">arr</span>: <span class="title class_">Array</span>&lt;<span class="built_in">number</span>&gt; = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">let</span> <span class="attr">arr1</span>: <span class="built_in">number</span>[] = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line"><span class="comment">// 接口表示数组</span></span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">NumberArray</span> &#123;</span><br><span class="line">    [<span class="attr">index</span>: <span class="built_in">number</span>]: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">fibonacci</span>: <span class="title class_">NumberArray</span> = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>]</span><br><span class="line"><span class="comment">// 联合数组</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">arr2</span>: (<span class="built_in">number</span> | <span class="built_in">string</span>)[] = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="string">&#x27;asd&#x27;</span>]</span><br><span class="line"><span class="comment">// any数组：数组中可以出现任意类型</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">list</span>: <span class="built_in">any</span>[] = [<span class="string">&#x27;xcatliu&#x27;</span>, <span class="number">25</span>, &#123; <span class="attr">website</span>: <span class="string">&#x27;http://xcatliu.com&#x27;</span> &#125;]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">mix</span>: <span class="built_in">number</span> | <span class="built_in">string</span> = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">func</span>: <span class="function">(<span class="params">arr: <span class="built_in">number</span>[]</span>) =&gt;</span> <span class="built_in">number</span>[] = <span class="keyword">function</span> (<span class="params">arr: <span class="built_in">number</span>[]</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接口对象</span></span><br><span class="line"><span class="keyword">interface</span> objType &#123;</span><br><span class="line">	<span class="keyword">readonly</span> <span class="attr">a</span>: <span class="built_in">number</span></span><br><span class="line">	b?: <span class="built_in">number</span>[]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">obj</span>: objType = &#123;</span><br><span class="line">	<span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line">	<span class="attr">b</span>: [<span class="number">1</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">GameState</span> = <span class="string">&#x27;pause&#x27;</span> | <span class="string">&#x27;running&#x27;</span> | <span class="string">&#x27;end&#x27;</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">gameState</span>: <span class="title class_">GameState</span> = <span class="string">&#x27;running&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Any"><a href="#Any" class="headerlink" title="Any"></a>Any</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">num</span>:<span class="built_in">any</span> = <span class="string">&#x27;five&#x27;</span></span><br><span class="line">num = <span class="number">7</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//可以访问任何属性</span></span><br><span class="line"><span class="keyword">let</span> <span class="attr">anyT</span>:<span class="built_in">any</span> = <span class="string">&#x27;123&#x27;</span></span><br><span class="line">anyT.<span class="property">myName</span></span><br><span class="line"><span class="comment">//可以调用任何方法</span></span><br><span class="line">anyT.<span class="title function_">setName</span>(<span class="string">&#x27;aya&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>声明一个变量为任意值之后，对它的任何操作，返回的内容的类型都是任意值</strong></p>
+<h4 id="未声明类型的变量"><a href="#未声明类型的变量" class="headerlink" title="未声明类型的变量"></a>未声明类型的变量</h4><ul>
+<li><strong>变量如果在声明的时候，未指定其类型，那么它会被识别为任意值类型</strong></li>
+</ul>
+<h2 id="类型推论"><a href="#类型推论" class="headerlink" title="类型推论"></a>类型推论</h2><p>根据第一次赋值给定类型，如果多次不同类型赋值，就会被推断为any。</p>
+<h2 id="联合类型"><a href="#联合类型" class="headerlink" title="联合类型"></a>联合类型</h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">num</span>:<span class="built_in">string</span> | <span class="built_in">number</span></span><br><span class="line">num = <span class="string">&#x27;seven&#x27;</span></span><br><span class="line">num = <span class="number">7</span></span><br><span class="line">num = <span class="literal">true</span> <span class="comment">//报错</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>只能调用共有属性的方法（交集）</p>
+</li>
+<li><p>联合类型的变量在被赋值的时候，会根据类型推论的规则推断出一个类型：</p>
+</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">myFavoriteNumber</span>: <span class="built_in">string</span> | <span class="built_in">number</span></span><br><span class="line">myFavoriteNumber = <span class="string">&#x27;seven&#x27;</span></span><br><span class="line">myFavoriteNumber.<span class="property">length</span> <span class="comment">// 5</span></span><br><span class="line">myFavoriteNumber = <span class="number">7</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(myFavoriteNumber.<span class="property">length</span>) <span class="comment">// 编译时报错</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> objType &#123;</span><br><span class="line">	<span class="keyword">readonly</span> <span class="attr">a</span>: <span class="built_in">number</span>	<span class="comment">//只读属性</span></span><br><span class="line">	b?: <span class="built_in">number</span>[] <span class="comment">//可选属性</span></span><br><span class="line">    [<span class="attr">propName</span>: <span class="built_in">number</span>]: <span class="built_in">any</span>	<span class="comment">//允许拥有任意属性</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="attr">obj</span>: objType = &#123;</span><br><span class="line">	<span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line">	<span class="attr">b</span>: [<span class="number">1</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>一旦定义了任意属性，那么确定属性和可选属性的类型都必须是它的类型的子集</strong></p>
+</li>
+<li><p><code>readonly</code>只读属性</p>
+</li>
+</ul>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">func</span>: <span class="function">(<span class="params">arr: <span class="built_in">number</span>[]</span>) =&gt;</span> <span class="built_in">number</span>[] = <span class="keyword">function</span> (<span class="params">arr: <span class="built_in">number</span>[]</span>) &#123;</span><br><span class="line">	<span class="keyword">return</span> arr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="接口定义函数的形状"><a href="#接口定义函数的形状" class="headerlink" title="接口定义函数的形状"></a>接口定义函数的形状</h4><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">SearchFunc</span> &#123;</span><br><span class="line">    (<span class="attr">source</span>: <span class="built_in">string</span>, <span class="attr">subString</span>: <span class="built_in">string</span>): <span class="built_in">boolean</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">mySearch</span>: <span class="title class_">SearchFunc</span>;</span><br><span class="line">mySearch = <span class="keyword">function</span>(<span class="params">source: <span class="built_in">string</span>, subString: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> source.<span class="title function_">search</span>(subString) !== -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h4><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">reverse</span>(<span class="params">x: <span class="built_in">number</span></span>): <span class="built_in">number</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">reverse</span>(<span class="params">x: <span class="built_in">string</span></span>): <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">reverse</span>(<span class="params">x: <span class="built_in">number</span> | <span class="built_in">string</span></span>): <span class="built_in">number</span> | <span class="built_in">string</span> | <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> x === <span class="string">&#x27;number&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title class_">Number</span>(x.<span class="title function_">toString</span>().<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>).<span class="title function_">reverse</span>().<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>));</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> x === <span class="string">&#x27;string&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> x.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>).<span class="title function_">reverse</span>().<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>多次定义，TypeScript 会优先从最前面的函数定义开始匹配，所以多个函数定义如果有包含关系，需要<strong>优先把精确的定义写在前面</strong>。</li>
+</ul>
+<h2 id="类型断言Type-Assertion"><a href="#类型断言Type-Assertion" class="headerlink" title="类型断言Type Assertion"></a>类型断言<code>Type Assertion</code></h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line">值 <span class="keyword">as</span> 类型</span><br><span class="line">&lt;类型&gt;值</span><br></pre></td></tr></table></figure>
+
+<h4 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h4><ul>
+<li>将一个联合类型断言为其中一个类型，尽量避免断言后调用方法或引用深层属性，以减少不必要的运行时错误。</li>
+<li>将一个父类断言为更加具体的子类</li>
+</ul>
+<h3 id="Type-Guard用typeof缩小范围"><a href="#Type-Guard用typeof缩小范围" class="headerlink" title="Type Guard用typeof缩小范围"></a><code>Type Guard</code>用<code>typeof</code>缩小范围</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// type guard</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getLen2</span>(<span class="params">input: <span class="built_in">string</span> | <span class="built_in">number</span></span>):<span class="built_in">number</span>&#123;</span><br><span class="line">	<span class="comment">// 缩小类型范围</span></span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">typeof</span> input === <span class="string">&#x27;string&#x27;</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> input.<span class="property">length</span></span><br><span class="line">	&#125; <span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> input.<span class="title function_">toString</span>().<span class="property">length</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Enums枚举"><a href="#Enums枚举" class="headerlink" title="Enums枚举"></a><code>Enums</code>枚举</h2><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Direction</span> &#123;</span><br><span class="line">	<span class="title class_">Up</span>,</span><br><span class="line">	<span class="title class_">Down</span>,</span><br><span class="line">	<span class="title class_">Left</span>,</span><br><span class="line">	<span class="title class_">Right</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Direction</span>.<span class="property">Left</span>)	<span class="comment">// 2</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Direction</span>[<span class="number">0</span>])		<span class="comment">// Up</span></span><br></pre></td></tr></table></figure>
+
+<p>编译后：实现双向赋值。</p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h37sbqh44rj20qs0c2jtb.jpg" alt="279BED06-F9D9-4515-A91C-A86486CACD33" style="zoom:50%;" />
+
+
+
+<h3 id="常量枚举"><a href="#常量枚举" class="headerlink" title="常量枚举"></a>常量枚举</h3><blockquote>
+<ul>
+<li><p>常数枚举与普通枚举的区别是，它会在编译阶段被删除，并且不能包含计算成员。假如包含了计算成员，则会在编译阶段报错。</p>
+</li>
+<li><p>只有常量值可以进行常量枚举。</p>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">enum</span> xxx&#123;&#125; <span class="comment">// 常量枚举</span></span><br></pre></td></tr></table></figure>
+
+<p>编译后：</p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h37sbq4owhj20og05i3yu.jpg" alt="5BA473DF-8B0B-4CB1-8003-B85104374607" style="zoom:50%;" />
+
+<h3 id="外部枚举"><a href="#外部枚举" class="headerlink" title="外部枚举"></a>外部枚举</h3><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// declare enum xxx</span></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">enum</span> <span class="title class_">Directions</span> &#123;</span><br><span class="line">    <span class="title class_">Up</span>,</span><br><span class="line">    <span class="title class_">Down</span>,</span><br><span class="line">    <span class="title class_">Left</span>,</span><br><span class="line">    <span class="title class_">Right</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> directions = [<span class="title class_">Directions</span>.<span class="property">Up</span>, <span class="title class_">Directions</span>.<span class="property">Down</span>, <span class="title class_">Directions</span>.<span class="property">Left</span>, <span class="title class_">Directions</span>.<span class="property">Right</span>];</span><br></pre></td></tr></table></figure>
+
+<p>编译后：</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> directions = [<span class="title class_">Directions</span>.<span class="property">Up</span>, <span class="title class_">Directions</span>.<span class="property">Down</span>, <span class="title class_">Directions</span>.<span class="property">Left</span>, <span class="title class_">Directions</span>.<span class="property">Right</span>];</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Cedrus-P</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><font color="#55ddee" >るるるるるんっ♪</font></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/TypeScript/"># TypeScript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/05/15/TypeScript-%E6%B3%9B%E5%9E%8B/">TypeScript-泛型</a>
+            
+            
+            <a class="next" rel="next" href="/2021/05/12/JS01-%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B%E5%92%8C%E8%AE%A1%E7%AE%97/">JS01.变量类型和计算</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span> でもこれが僕の描く理想の歌，そのまま何も言わないで。</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Cedrus-P">
+
+
+
+
+
+<title>TypeScript在项目中使用 | Cedrus-P</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Cedrus-P&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Cedrus-P&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">TypeScript在项目中使用</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Cedrus-P</a>
+                    
+
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="项目中的typescript"><a href="#项目中的typescript" class="headerlink" title="项目中的typescript"></a>项目中的typescript</h2><p><code>xxx.d.ts</code>：没有任何的实际代码的实现，只有类型声明（interface、function、class等）。</p>
+<p><a target="_blank" rel="noopener" href="https://www.typescriptlang.org/dt/search?search=">TypeSearch</a>：安装第三方库是否需要下载对应的类型文件。</p>
+<blockquote>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#declare-var"><code>declare var</code></a> 声明全局变量</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#declare-function"><code>declare function</code></a> 声明全局方法</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#declare-class"><code>declare class</code></a> 声明全局类</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#declare-enum"><code>declare enum</code></a> 声明全局枚举类型</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#declare-namespace"><code>declare namespace</code></a> 声明（含有子属性的）全局对象</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#interface-%E5%92%8C-type"><code>interface</code> 和 <code>type</code></a> 声明全局类型</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#export"><code>export</code></a> 导出变量</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#export-namespace"><code>export namespace</code></a> 导出（含有子属性的）对象</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#export-default"><code>export default</code></a> ES6 默认导出</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#export-1"><code>export =</code></a> commonjs 导出模块</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#export-as-namespace"><code>export as namespace</code></a> UMD 库声明全局变量</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#declare-global"><code>declare global</code></a> 扩展全局变量</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#declare-module"><code>declare module</code></a> 扩展模块</li>
+<li><a target="_blank" rel="noopener" href="https://ts.xcatliu.com/basics/declaration-files.html#san-xie-xian-zhi-ling"><code>/// </code></a> 三斜线指令</li>
+</ul>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Cedrus-P</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><font color="#55ddee" >るるるるるんっ♪</font></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/TypeScript/"># TypeScript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/05/18/Vue3-01-ref%E3%80%81reactive%E3%80%81toRef%E3%80%81toRefs%E5%BA%94%E7%94%A8%E5%8F%8A%E5%8C%BA%E5%88%AB/">Vue3-01.ref、reactive、toRef、toRefs应用及区别</a>
+            
+            
+            <a class="next" rel="next" href="/2022/05/15/TypeScript-%E6%B3%9B%E5%9E%8B/">TypeScript-泛型</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span> でもこれが僕の描く理想の歌，そのまま何も言わないで。</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
