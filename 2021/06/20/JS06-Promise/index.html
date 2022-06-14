@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Cedrus-P">
+
+
+
+
+
+<title>JS06-Promise | Cedrus-P</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Cedrus-P&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Cedrus-P&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JS06-Promise</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Cedrus-P</a>
+                    
+
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="同步和异步区别"><a href="#同步和异步区别" class="headerlink" title="同步和异步区别"></a>同步和异步区别</h1><ul>
+<li>因为JS是单线程语言</li>
+<li>同步是阻塞模式，异步是非阻塞模式。</li>
+<li>同步就是指一个进程在执行某个请求的时候，若该请求需要一段时间才能返回信息，那么这个进程将会一直等待下去，直到收到返回信息才继续执行下去。</li>
+<li>异步是指进程不需要一直等下去，而是继续执行下面的操作，不管其他进程的状态。当有消息返回时系统会通知进程进行处理，这样可以提高执行的效率。</li>
+<li>同步和异步的差别就在于这条流水线上各个流程的执行顺序不同。</li>
+</ul>
+<h2 id="单线程和异步"><a href="#单线程和异步" class="headerlink" title="单线程和异步"></a>单线程和异步</h2><ul>
+<li>JS是单线程语言，只能同时做一件事</li>
+<li>浏览器和nodejs已支持JS启动<code>进程</code>，如<a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/07/web-worker.html">Web Worker</a></li>
+<li>JS和DOM渲染共用同一个线程，因为JS可以修改DOM结构</li>
+</ul>
+<h4 id="why"><a href="#why" class="headerlink" title="why"></a>why</h4><ul>
+<li>在浏览器中遇到等待时不能卡住</li>
+<li>通过异步解决，异步不会阻塞代码执行，同步会阻塞代码执行</li>
+<li>回调call back实现</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">200</span>)    <span class="comment">//1</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;  <span class="comment">//回调函数</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">100</span>)  <span class="comment">//3</span></span><br><span class="line">&#125;, <span class="number">300</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">300</span>)    <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="callback-hell（回调地狱）"><a href="#callback-hell（回调地狱）" class="headerlink" title="callback hell（回调地狱）"></a>callback hell（回调地狱）</h2><img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h37t396lylj20fc0i80tz.jpg" alt="16526072dc3293824de87e15898147dc" style="zoom:50%;" />
+
+
+
+<h1 id="Promise的三种状态"><a href="#Promise的三种状态" class="headerlink" title="Promise的三种状态"></a>Promise的三种状态</h1><h2 id="三种状态"><a href="#三种状态" class="headerlink" title="三种状态"></a>三种状态</h2><ul>
+<li><p><code>pending</code>准备 <code>fulfilled</code>成功 <code>rejected</code>失败</p>
+</li>
+<li><p><code>pengding</code>-&gt;<code>fulfilled/pending</code>-&gt;<code>rejected</code></p>
+</li>
+<li><p>变化是<strong>不可逆</strong>的</p>
+</li>
+<li><p><code>pending</code>准备, 不会触发<code>then</code>和<code>catch</code></p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h37t3tte94j20qo06caaj.jpg" alt="904c4cc6978dae1ee0c0f3c9786f406b" style="zoom:50%;" />
+</li>
+<li><p><code>fulfilled</code>成功, 会触发后续的<code>then</code>回调函数</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p1 = <span class="title class_">Promise</span>.<span class="title function_">resolve</span>(<span class="number">100</span>)</span><br><span class="line">p1 <span class="comment">//Promise &#123;&lt;fulfilled&gt;: 100&#125;</span></span><br><span class="line"></span><br><span class="line">p1.<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;data&#x27;</span>, data) <span class="comment">//data 100</span></span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;err&#x27;</span>, err) <span class="comment">//不会执行</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h37t46clelj20oq09c3zr.jpg" alt="52f0601bdab5958237ad3194175a9ff1" style="zoom:50%;" />
+</li>
+<li><p><code>rejected</code>失败，会触发后续的<code>catch</code>回调函数</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p2 = <span class="title class_">Promise</span>.<span class="title function_">reject</span>(<span class="string">&#x27;err&#x27;</span>)</span><br><span class="line">p2 <span class="comment">//Promise &#123;&lt;rejected&gt;: &#x27;err&#x27;&#125;</span></span><br><span class="line"></span><br><span class="line">p2.<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;data&#x27;</span>, data) <span class="comment">//不会执行</span></span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;err&#x27;</span>, err) <span class="comment">//err err</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h37t4ke9zbj20pa0aoabp.jpg" alt="007fcce32cf178f2da15ae7759a4f23d" style="zoom:50%;" /></li>
+</ul>
+<h2 id="promise-then和catch如何影响状态的转换"><a href="#promise-then和catch如何影响状态的转换" class="headerlink" title="promise then和catch如何影响状态的转换"></a>promise then和catch如何影响状态的转换</h2><ul>
+<li><code>then</code>正常返回<code>resolved</code>,里面有报错则返回<code>rejected</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p1 = <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">100</span>         <span class="comment">//正常返回resolved</span></span><br><span class="line">&#125;)</span><br><span class="line">p1.<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;123&#x27;</span>)  <span class="comment">//123</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> p1 = <span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;then error&#x27;</span>)   <span class="comment">//then error</span></span><br><span class="line">  <span class="comment">//报错返回rejected</span></span><br><span class="line">&#125;)</span><br><span class="line">p1.<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;456&#x27;</span>)  <span class="comment">//不执行无输出</span></span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;err100&#x27;</span>, err)  <span class="comment">//err100 err</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>catch</code>正常返回<code>resolved</code>,里面有报错则返回<code>rejected</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> p3 = <span class="title class_">Promise</span>.<span class="title function_">reject</span>(<span class="string">&#x27;my error&#x27;</span>).<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(err)         <span class="comment">//正常返回resolved！触发then回调 </span></span><br><span class="line">&#125;)</span><br><span class="line">p3.<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;123&#x27;</span>)  <span class="comment">//123</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> p4 = <span class="title class_">Promise</span>.<span class="title function_">reject</span>(<span class="string">&#x27;my error&#x27;</span>).<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;catch error&#x27;</span>)   <span class="comment">//catch error</span></span><br><span class="line">  <span class="comment">//报错返回rejected</span></span><br><span class="line">&#125;)</span><br><span class="line">p1.<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;456&#x27;</span>)  <span class="comment">//不执行无输出</span></span><br><span class="line">&#125;).<span class="title function_">catch</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;err100&#x27;</span>, err)  <span class="comment">//err100 err</span></span><br><span class="line">&#125;) <span class="comment">//resolved的promise</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="async-await同步语法，消灭回调函数"><a href="#async-await同步语法，消灭回调函数" class="headerlink" title="async-await同步语法，消灭回调函数"></a>async-await同步语法，消灭回调函数</h1><ul>
+<li>语法糖，不能改变异步的本质</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">xxx</span>(<span class="params"></span>) &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<h2 id="和promise的关系"><a href="#和promise的关系" class="headerlink" title="和promise的关系"></a>和promise的关系</h2><ul>
+<li>消灭回调函数</li>
+<li>和promise不冲突，相辅相成</li>
+</ul>
+<h4 id="how"><a href="#how" class="headerlink" title="how"></a>how</h4><ul>
+<li>执行<code>async</code>函数，返回<code>promise</code>对象</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">fn1</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="comment">// return 100 //会被封装成promise对象，相当于</span></span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">resolve</span>(<span class="number">100</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> res1 = <span class="title function_">fn1</span>()  <span class="comment">//执行async函数，返回promise对象</span></span><br><span class="line">res1.<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;data&#x27;</span>, data) <span class="comment">//data 100</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>await</code>相当于promise的<code>then</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">!(<span class="keyword">async</span> <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">// const p1 = Promise.resolve(300)</span></span><br><span class="line">  <span class="comment">// const data = await p1 //await相当于promise的then</span></span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> <span class="number">400</span> <span class="comment">//相当于await Promise.resolve(400)</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;data&#x27;</span>, data) <span class="comment">//data 400</span></span><br><span class="line">&#125;)()</span><br><span class="line"></span><br><span class="line"><span class="comment">//注意</span></span><br><span class="line">!(<span class="keyword">async</span> <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> p1 = <span class="title class_">Promise</span>.<span class="title function_">reject</span>(<span class="string">&#x27;err&#x27;</span>)  <span class="comment">//rejected状态</span></span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> p1 <span class="comment">//await =&gt; then</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(res)  <span class="comment">//不会执行</span></span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>try...catch</code>可捕获异常，代替promise的<code>catch</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">!(<span class="keyword">async</span> <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> p1 = <span class="title class_">Promise</span>.<span class="title function_">reject</span>(<span class="string">&#x27;err&#x27;</span>)</span><br><span class="line">  <span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> p1  <span class="comment">//捕获err</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res)</span><br><span class="line">  &#125; <span class="keyword">catch</span>(ex) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(ex) <span class="comment">//try...catch可捕获异常，代替promise的catch</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Cedrus-P</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><font color="#55ddee" >るるるるるんっ♪</font></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/JavaScript/"># JavaScript</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/03/18/Vue3-01-ref%E3%80%81reactive%E3%80%81toRef%E3%80%81toRefs%E5%BA%94%E7%94%A8%E5%8F%8A%E5%8C%BA%E5%88%AB/">Vue3-01.ref、reactive、toRef、toRefs应用及区别</a>
+            
+            
+            <a class="next" rel="next" href="/2021/05/24/Web%E5%AD%98%E5%82%A8/">Web存储</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span> でもこれが僕の描く理想の歌，そのまま何も言わないで。</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
