@@ -13,7 +13,7 @@
 
 
 
-<title>Archives: 2022 | Cedrus-P</title>
+<title>Vite中定义软链接 | Cedrus-P</title>
 
 
 
@@ -124,103 +124,83 @@
     }
 </script>
             <div class="main">
-                <div class="post-wrap archive">
+                <div class="container">
     
     
-        
 
-        
-            <h3>2022</h3>
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/06/15/Vite%E4%B8%AD%E5%AE%9A%E4%B9%89%E8%BD%AF%E9%93%BE%E6%8E%A5/">Vite中定义软链接</a>
-            <span class="archive-item-date">June 15, 2022</span>
-        </article>
     
-        
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Vite中定义软链接</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Cedrus-P</a>
+                    
+
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>在 <code>webpack</code> 中可以直接通过 <code>@</code> 符号表示 <code>src</code> 路径，但是在 <code>vite</code> 默认是不可以的。为了让<code>vite</code>支持<code>@</code>软链接，可以用 <a target="_blank" rel="noopener" href="https://cn.vitejs.dev/config/#resolve-alias">resolve.alias</a> 功能，表示：<strong>通过别名在指向一个具体的路径</strong>。</p>
+<p>报错信息如下：<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h399aqdtc5j20zq036wep.jpg" alt="981621FB-D15C-4B7F-AFF5-28E329B7BD43"></p>
+<p>在 <code>vite.config.js</code> 中配置</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; join &#125; <span class="keyword">from</span> <span class="string">&#x27;path&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">defineConfig</span>(&#123;</span><br><span class="line">  <span class="attr">plugins</span>: [<span class="title function_">vue</span>()],</span><br><span class="line">  <span class="comment">// 软链接</span></span><br><span class="line">  <span class="attr">resolve</span>: &#123;</span><br><span class="line">    <span class="attr">alias</span>: &#123;</span><br><span class="line">      <span class="string">&#x27;@&#x27;</span>: <span class="title function_">join</span>(__dirname, <span class="string">&#x27;/src&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>此时，重启项目，该错误消失。</p>
+
+        </div>
 
         
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Cedrus-P</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><font color="#55ddee" >るるるるるんっ♪</font></span>
+                     </p>
+                
 
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/06/14/tailwindcss%E4%BD%BF%E7%94%A8/">tailwindcss项目使用</a>
-            <span class="archive-item-date">June 14, 2022</span>
-        </article>
-    
+            </section>
         
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Vite/"># Vite</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/06/14/tailwindcss%E4%BD%BF%E7%94%A8/">tailwindcss项目使用</a>
+            
+        </section>
 
-        
 
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/05/20/Http%E7%BC%93%E5%AD%98/">Http缓存</a>
-            <span class="archive-item-date">May 20, 2022</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/05/16/TypeScript%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8/">TypeScript在项目中使用</a>
-            <span class="archive-item-date">May 16, 2022</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/05/15/TypeScript-%E6%B3%9B%E5%9E%8B/">TypeScript-泛型</a>
-            <span class="archive-item-date">May 15, 2022</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/05/14/TypeScript%E8%A6%81%E7%82%B9/">TypeScript要点</a>
-            <span class="archive-item-date">May 14, 2022</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/03/20/Vue3-04-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B8%B2%E6%9F%93%E5%99%A8&%E5%BC%82%E6%AD%A5%E6%B8%B2%E6%9F%93/">Vue3-04.自定义渲染器</a>
-            <span class="archive-item-date">March 20, 2022</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/03/19/Vue3-03-Fragments-Emits%E9%80%89%E9%A1%B9/">Vue3-03.Fragments &amp; Emits选项</a>
-            <span class="archive-item-date">March 19, 2022</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/03/19/Vue3-02-Teleport-%E4%BC%A0%E9%80%81%E9%97%A8/">Vue3-02.Teleport-传送门</a>
-            <span class="archive-item-date">March 19, 2022</span>
-        </article>
-    
-        
-
-        
-
-        <article class="archive-item">
-            <a class="archive-item-link" href="/2022/03/18/Vue3-01-ref%E3%80%81reactive%E3%80%81toRef%E3%80%81toRefs%E5%BA%94%E7%94%A8%E5%8F%8A%E5%8C%BA%E5%88%AB/">Vue3-01.ref、reactive、toRef、toRefs应用及区别</a>
-            <span class="archive-item-date">March 18, 2022</span>
-        </article>
-    
-    
+    </article>
 </div>
+
             </div>
             <footer id="footer" class="footer">
     <div class="copyright">
