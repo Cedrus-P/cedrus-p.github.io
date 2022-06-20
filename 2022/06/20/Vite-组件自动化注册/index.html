@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Cedrus-P">
+
+
+
+
+
+<title>Vite-组件自动化注册 | Cedrus-P</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Cedrus-P&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Cedrus-P&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6;    // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function () {
+            tocbot.refresh(obj_merge(tocbot_default_config, { hasInnerContainers: true }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function () {
+        tocbot.init(obj_merge(tocbot_default_config, { collapseDepth: 1 }));
+    });
+
+    function expandToc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, { collapseDepth: expanded ? 1 : DEPTH_MAX }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Vite-组件自动化注册</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Cedrus-P</a>
+                    
+
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Vite-进行组件自动化注册"><a href="#Vite-进行组件自动化注册" class="headerlink" title="Vite 进行组件自动化注册"></a>Vite 进行组件自动化注册</h1><p>对于<code>libs</code>中的通用组件，进行手动的组件注册是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// libs/index.js</span></span><br><span class="line"><span class="keyword">import</span> svgIcon <span class="keyword">from</span> <span class="string">&#x27;./svg-icon/index.vue&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">install</span>(<span class="params">app</span>) &#123;</span><br><span class="line">    app.<span class="title function_">component</span>(<span class="string">&#x27;m-svg-icon&#x27;</span>, svgIcon)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每生成一个通用组件都需要引入注册一次。</p>
+<p>通过<code>Vite</code>提供的功能，如何进行通用组件的注册呢？</p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li>获取当前路径下所有文件夹中的 <code>index.vue</code></li>
+<li>遍历获取到的组件模块</li>
+<li>利用 app.component 进行注册</li>
+</ol>
+<h2 id="vite-的-Glob-导入-功能"><a href="#vite-的-Glob-导入-功能" class="headerlink" title="vite 的 Glob 导入 功能"></a><a target="_blank" rel="noopener" href="https://cn.vitejs.dev/guide/features.html#glob-import">vite 的 Glob 导入</a> 功能</h2><ul>
+<li>在 <strong>文件系统中导入多个模块</strong></li>
+</ul>
+<blockquote>
+<p>Vite 支持使用特殊的 <code>import.meta.glob</code> 函数从文件系统导入多个模块：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&gt;<span class="keyword">const</span> modules = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="title function_">glob</span>(<span class="string">&#x27;./dir/*.js&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>匹配到的文件默认是懒加载的，通过动态导入实现，并会在构建时分离为独立的 chunk。以上将会被转译为下面的样子:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&gt;<span class="comment">// vite 生成的代码</span></span><br><span class="line">&gt;<span class="keyword">const</span> modules = &#123;</span><br><span class="line"> <span class="string">&#x27;./dir/foo.js&#x27;</span>: <span class="function">() =&gt;</span> <span class="title function_">import</span>(<span class="string">&#x27;./dir/foo.js&#x27;</span>),</span><br><span class="line"> <span class="string">&#x27;./dir/bar.js&#x27;</span>: <span class="function">() =&gt;</span> <span class="title function_">import</span>(<span class="string">&#x27;./dir/bar.js&#x27;</span>)</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>遍历 <code>modules</code> 对象的 key 值来访问相应的模块：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&gt;<span class="keyword">for</span> (<span class="keyword">const</span> path <span class="keyword">in</span> modules) &#123;</span><br><span class="line"> modules[path]().<span class="title function_">then</span>(<span class="function">(<span class="params">mod</span>) =&gt;</span> &#123;</span><br><span class="line">   <span class="variable language_">console</span>.<span class="title function_">log</span>(path, mod)</span><br><span class="line"> &#125;)</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>利用这样的功能，我们就可以实现第一条和第二条：获取当前路径下所有文件夹中的 <code>index.vue</code>并且遍历获取到的组件模块：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">install</span>(<span class="params">app</span>) &#123;</span><br><span class="line">    <span class="comment">// 1. 获取当前路径下所有文件夹中的 index.vue</span></span><br><span class="line">    <span class="keyword">const</span> components = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="title function_">glob</span>(<span class="string">&#x27;./*/index.vue&#x27;</span>)</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(components)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h3etqcfnjhj20zy04sabd.jpg" alt="3D86B3C5-9F06-46ED-9764-5F6B530B9885" style="zoom:75%;" />
+
+<p>控制台里可以看到我们获取到了<code>libs</code>下所有的组件中的<code>index.vue</code>文件，此时我们遍历获取到的组件来获得他们的相对路径：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">install</span>(<span class="params">app</span>) &#123;</span><br><span class="line">    <span class="comment">// 1. 获取当前路径下所有文件夹中的 index.vue</span></span><br><span class="line">    <span class="keyword">const</span> components = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="title function_">glob</span>(<span class="string">&#x27;./*/index.vue&#x27;</span>)</span><br><span class="line">    <span class="comment">//  console.log(components)</span></span><br><span class="line">+    <span class="comment">// 2. 遍历获取到的组件模块</span></span><br><span class="line">+   <span class="keyword">for</span> (<span class="keyword">const</span> [fullPath, fn] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(components)) &#123;</span><br><span class="line">+     <span class="variable language_">console</span>.<span class="title function_">log</span>(fullPath)</span><br><span class="line">+   &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h3etvvrc1hj20e803ggln.jpg" alt="FB1BA1A4-4855-49CC-8CCB-405E8D4C2D65" style="zoom:67%;" />
+
+<p>控制台上打印出了我们当前文件夹下所有组件的相对路径。</p>
+<p>接下来是统一命名方式，在注册过程中我们的组件命名方式是<code>m-xxx</code>,因此我们把<code>fullPath</code>处理一下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">install</span>(<span class="params">app</span>) &#123;</span><br><span class="line">    <span class="comment">// 1. 获取当前路径下所有文件夹中的 index.vue</span></span><br><span class="line">    <span class="keyword">const</span> components = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="title function_">glob</span>(<span class="string">&#x27;./*/index.vue&#x27;</span>)</span><br><span class="line">    <span class="comment">// 2. 遍历获取到的组件模块</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> [fullPath, fn] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(components)) &#123;</span><br><span class="line"> +     <span class="comment">// 拼接组件注册的 name</span></span><br><span class="line"> +    <span class="keyword">const</span> componentName = <span class="string">&#x27;m-&#x27;</span> + fullPath.<span class="title function_">replace</span>(<span class="string">&#x27;./&#x27;</span>, <span class="string">&#x27;&#x27;</span>).<span class="title function_">split</span>(<span class="string">&#x27;/&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h3eu12zlngj20bc03amx2.jpg" alt="0ED0AEFB-7907-4893-8632-1B239F1C2F47" style="zoom:50%;" />
+
+<p>对通用组件的名称统一我们已经处理好了。</p>
+<h2 id="vue-的-defineAsyncComponent"><a href="#vue-的-defineAsyncComponent" class="headerlink" title="vue 的 defineAsyncComponent"></a><a target="_blank" rel="noopener" href="https://v3.cn.vuejs.org/api/global-api.html#defineasynccomponent">vue 的 defineAsyncComponent</a></h2><ul>
+<li>创建一个<strong>只有在需要时才会加载的异步组件</strong>。</li>
+</ul>
+<blockquote>
+<p>对于基本用法，<code>defineAsyncComponent</code> 可以接受一个返回 <code>Promise</code> 的工厂函数。Promise 的 <code>resolve</code> 回调应该在服务端返回组件定义后被调用。你也可以调用 <code>reject(reason)</code> 来表示加载失败。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&gt;<span class="keyword">import</span> &#123; defineAsyncComponent &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line">&gt;<span class="keyword">const</span> <span class="title class_">AsyncComp</span> = <span class="title function_">defineAsyncComponent</span>(<span class="function">() =&gt;</span></span><br><span class="line"> <span class="title function_">import</span>(<span class="string">&#x27;./components/AsyncComponent.vue&#x27;</span>)</span><br><span class="line">&gt;)</span><br><span class="line">&gt;app.<span class="title function_">component</span>(<span class="string">&#x27;async-component&#x27;</span>, <span class="title class_">AsyncComp</span>)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>在<code>for (const [fullPath, fn] of Object.entries(components)) &#123;&#125;</code>遍历过程中我们获取的<code>[fullPath, fn]</code>，控制台打印可以看到，<code>fn</code>是一个<code>import(&#39;&#39;)</code>的回调函数，根据<code>defineAsyncComponent</code>官方文档，这正是我们想要的：</p>
+<img src="https://tva1.sinaimg.cn/large/e6c9d24ely1h3eub8sd0cj20r807wq3s.jpg" alt="EF6CB418-C5DE-4886-9BD3-91CC5BF4C9CB" style="zoom:67%;" />
+
+<p>此时我们通过 <code>defineAsyncComponent</code> 异步导入<code>fn</code>并且用利用 <code>app.component</code> 进行注册就完成了：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">install</span>(<span class="params">app</span>) &#123;</span><br><span class="line">    <span class="comment">// 1. 获取当前路径下所有文件夹中的 index.vue</span></span><br><span class="line">    <span class="keyword">const</span> components = <span class="keyword">import</span>.<span class="property">meta</span>.<span class="title function_">glob</span>(<span class="string">&#x27;./*/index.vue&#x27;</span>)</span><br><span class="line">    <span class="comment">// 2. 遍历获取到的组件模块</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> [fullPath, fn] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(components)) &#123;</span><br><span class="line">   	  <span class="comment">// 拼接组件注册的 name</span></span><br><span class="line">      <span class="keyword">const</span> componentName = <span class="string">&#x27;m-&#x27;</span> + fullPath.<span class="title function_">replace</span>(<span class="string">&#x27;./&#x27;</span>, <span class="string">&#x27;&#x27;</span>).<span class="title function_">split</span>(<span class="string">&#x27;/&#x27;</span>)[<span class="number">0</span>]</span><br><span class="line">      <span class="comment">// 通过 defineAsyncComponent 异步导入指定路径下的组件</span></span><br><span class="line">      <span class="comment">// 3. 利用 app.component 进行注册</span></span><br><span class="line">+      app.<span class="title function_">component</span>(componentName, <span class="title function_">defineAsyncComponent</span>(fn))</span><br><span class="line">     &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>回到项目之中，在<code>libs</code>下的通用组件仍然能够正常显示，之后再次在该文件夹下用相同格式写通用组件，就可以实现自动注册了。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Cedrus-P</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span><font color="#55ddee" >るるるるるんっ♪</font></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Vite/"># Vite</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/06/19/Vite%E5%A4%84%E7%90%86svg%E7%9F%A2%E9%87%8F%E5%9B%BE/">Vite处理svg矢量图</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span> でもこれが僕の描く理想の歌，そのまま何も言わないで。</span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

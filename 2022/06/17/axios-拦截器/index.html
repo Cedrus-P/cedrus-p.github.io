@@ -13,7 +13,7 @@
 
 
 
-<title>Vite环境变量和模式 | Cedrus-P</title>
+<title>axios-拦截器 | Cedrus-P</title>
 
 
 
@@ -190,7 +190,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Vite环境变量和模式</h1>
+            <h1 class="post-title">axios-拦截器</h1>
             
                 <div class="post-meta">
                     
@@ -204,43 +204,7 @@
         </header>
 
         <div class="post-content">
-            <h1 id="Vite环境变量和模式"><a href="#Vite环境变量和模式" class="headerlink" title="Vite环境变量和模式"></a>Vite环境变量和模式</h1><h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><blockquote>
-<p>Vite 在一个特殊的 <strong><code>import.meta.env</code></strong> 对象上暴露环境变量。</p>
-</blockquote>
-<p><code>baseURL</code>进行项目开发时，我们需要把服务切换为 <code>DEV</code> 模式，而在打包项目时需要切换为 <code>PROD</code> 模式。</p>
-<h2 id="env文件"><a href="#env文件" class="headerlink" title=".env文件"></a><code>.env</code>文件</h2><p>在 <code>vite</code> 中提供了 <a target="_blank" rel="noopener" href="https://cn.vitejs.dev/guide/env-and-mode.html#env-files">.env 文件</a> ，该文件为环境变量文件，默认提供了四种文件格式：</p>
-<blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&gt;.env                # 所有情况下都会加载</span><br><span class="line">&gt;.env.local          # 所有情况下都会加载，但会被 git 忽略</span><br><span class="line">&gt;.env.[mode]         # 只在指定模式下加载</span><br><span class="line">&gt;.env.[mode].local   # 只在指定模式下加载，但会被 git 忽略</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
-<p><strong>环境加载优先级</strong></p>
-<p>一份用于指定模式的文件（例如 <code>.env.production</code>）会比通用形式的优先级更高（例如 <code>.env</code>）。</p>
-<p>另外，Vite 执行时已经存在的环境变量有最高的优先级，不会被 <code>.env</code> 类文件覆盖。例如当运行 <code>VITE_SOME_KEY=123 vite build</code> 的时候。</p>
-<p><code>.env</code> 类文件会在 Vite 启动一开始时被加载，而改动会在重启服务器后生效。</p>
-</blockquote>
-<p><strong>加载的环境变量也会通过 <code>import.meta.env</code> 以字符串形式暴露给客户端源码。</strong></p>
-<h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><p> <code>.env.[mode]</code> 的格式可以在 <strong>不同模式下加载不同内容</strong>.我们可以创建对应的文件：</p>
-<ol>
-<li><p>新建 <code>.env.development</code> 文件，表示 <strong>开发时</strong> 的 <code>.env</code> 文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 只在指定开发模式（development）下加载</span><br><span class="line"></span><br><span class="line"># base api, 只有以 VITE_ 为前缀的变量才会暴露给经过 vite 处理</span><br><span class="line">VITE_BASE_API = &#x27;/api&#x27;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建 <code>.env.production</code> 文件，表示 <strong>生产时</strong> 的 <code>.env</code> 文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 只在指定生产模式（production）下加载</span><br><span class="line"></span><br><span class="line"># base api, 只有以 VITE_ 为前缀的变量才会暴露给经过 vite 处理</span><br><span class="line">VITE_BASE_API = &#x27;/prod-api&#x27;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在 <code>src/utils/request.js</code> 中打印 <code>VITE_BASE_API</code></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">VITE_BASE_API</span>)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>此时执行 <code>npm run dev</code> 时，控制台打印为 <code>/api</code> ，表示 <strong>开发时服务地址</strong></p>
-</li>
-<li><p>执行 <code>npm run build</code> 打包项目后运行 <code>dist</code> 目录，浏览器打印为 <code>/prod-api</code>，表示 <strong>发布时服务地址</strong></p>
-</li>
-<li><p>表示 <strong>环境变量配置成功</strong>，此时修改 <code>baseURL</code> 为 <code>import.meta.env.VITE_BASE_API</code> 变量即可</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="attr">baseURL</span>: <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">env</span>.<span class="property">VITE_BASE_API</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重新运行项目，接口依然请求成功</p>
-</li>
-</ol>
-
+            <h1 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h1>
         </div>
 
         
@@ -268,7 +232,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/Vite/"># Vite</a>
+                        <a href="/tags/axios/"># axios</a>
                     
                         
                 </span>
@@ -281,10 +245,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/06/17/axios-%E6%8B%A6%E6%88%AA%E5%99%A8/">axios-拦截器</a>
+                <a class="prev" rel="prev" href="/2022/06/19/Vite%E5%A4%84%E7%90%86svg%E7%9F%A2%E9%87%8F%E5%9B%BE/">Vite处理svg矢量图</a>
             
             
-            <a class="next" rel="next" href="/2022/06/15/Vite%E4%B8%AD%E5%AE%9A%E4%B9%89%E8%BD%AF%E9%93%BE%E6%8E%A5/">Vite中定义软链接</a>
+            <a class="next" rel="next" href="/2022/06/16/Vite%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E5%92%8C%E6%A8%A1%E5%BC%8F/">Vite环境变量和模式</a>
             
         </section>
 
